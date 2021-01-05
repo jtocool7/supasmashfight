@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Supa Smash Fight</title>
+  <style>
+  canvas{
+    border:1px solid;
+    margin:50x;
+  }
+  
+  #ssamus{
+    position:absolute;
+    top:50px;
+    left:50px;
+  }
+  
+  .hide{
+    display:none;
+  }
+  </style>
+</head>
+<body>
+<center>
+  <canvas id=cvs width=835px height=701px>
+  </canvas>
+</center>
+  
+  <audio id=startm src="https://vgmsite.com/soundtracks/super-smash-bros.-anthology-vol.-01-super-smash-bros/vrevznavwv/001.%20Main%20Theme%20%28E3%202018%20Version%29.mp3"></audio>
+  <div class=hide id=men>
+    <div id=ssamus>
+    <img src="https://cdn.discordapp.com/attachments/743458313089581079/793549817946701844/ssamus.png" alt=" samus start screen">
+    </div>
+  </div>
+  <script>
+  const cvs = document.getElementById("cvs");
+  const cxt = cvs.getContext('2d');
+  // const
+  const state = {
+  current:0,
+  start:0,
+  menu:1,
+  fight:2,
+  }
+  
+  const player = {
+  left:false,
+  right:true,
+  }
+  
+  const frame = {
+  current:0
+  }
+  
+  
+  var xPos = 10;
+  var yPos = 500;
+  
+  var samus = false;
+  // images
+  var start = new Image();
+  start.src = "https://cdn.discordapp.com/attachments/743458313089581079/793537853643816991/starting_screen.jpg";
+  
+  var bg = new Image();
+  bg.src = "https://cdn.discordapp.com/attachments/743458313089581079/793892230493372438/boxing_ring.png";
+  
+  var sw = new Image();
+  sw.src = "https://cdn.discordapp.com/attachments/743458313089581079/793893337043304458/samus.png";
+  
+  function draw(){
+  cxt.fillRect(0,0,cvs.width,cvs.height);
+  if(state.current == 0){
+  cxt.drawImage(start,0,0,cvs.width,cvs.height);
+  }
+  if(state.current == 1 ){
+  cxt.fillStyle = "red";
+  cxt.fillRect(0,0,cvs.width,cvs.height);
+  men.classList.remove('hide');
+  }
+  if(state.current == 2){
+  cxt.drawImage(bg,0,0,cvs.width,cvs.height);
+  men.classList.add('hide');
+  if(samus == true){
+  
+  if(player.right == true){
+  if(frame.current == 0){
+   cxt.drawImage(sw,756,111,48,76,xPos,yPos,50,50);
+  }
+  if(frame.current == 1){
+  cxt.drawImage(sw,28,311,50,74,xPos,yPos,50,50);
+  }
+  if(frame.current == 2){
+  cxt.drawImage(sw,126,309,60,74,xPos,yPos,50,50)
+  }
+  if(frame.current == 3){
+  cxt.drawImage(sw,338,308,70,74,xPos,yPos,50,50)
+  }
+  }
+  }
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+  }
+  
+  
+  
+  function press(){
+  if(state.current == 0){
+  cvs.addEventListener('click',function(){
+  if(state.current == 0){
+    state.current = 1;
+  }
+
+  })
+  }
+  }
+  
+  function playMusic(){
+  if(state.current == 0){
+  startm.play()
+
+  }
+  if(state.current == 1){
+  startm.pause();
+  }
+  }
+
+  // event listeners
+  ssamus.addEventListener('click', function(){
+  state.current = 2;
+  samus = true;
+  })
+  
+  document.addEventListener('keydown', function(evt){
+  if(state.current == 2){
+  if(evt.keyCode === 39){
+  if(xPos < 800){
+  xPos += 5
+  frame.current += 1;
+  player.right = true;
+   }
+  }
+  }
+  })
+  
+  // loop function
+  function loop(){
+  requestAnimationFrame(loop);
+  draw();
+  //playMusic()
+  press()
+  console.log(samus)
+  }
+  
+  loop()
+  </script>
+</body>
+</html>
